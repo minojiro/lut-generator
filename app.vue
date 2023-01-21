@@ -37,29 +37,37 @@ const handleSubmit = async() => {
 </script>
 
 <template>
-  <div>
-    <form @submit.prevent="handleSubmit">
-      <p>
-        camera<br />
-        <input type="file" @change="e => inFile = e.target.files[0]" />
-      </p>
-      <p>
-        target<br />
-        <input type="file" @change="e => outFile = e.target.files[0]" />
-      </p>
-      <p><button type="submit" :disabled="!submittable">generate</button></p>
+  <div class="max-w-3xl px-5 mx-auto my-20">
+    <h1 class="text-3xl font-bold">📸 LUT Generator</h1>
+    <form @submit.prevent="handleSubmit" class="block mt-20">
+      <div class="flex gap-5 items-end">
+        <label class="flex-1">
+          <span class="block font-bold mb-3">🎨 Source Camera LUT</span>
+          <input
+            class="file-input file-input-bordered w-full"
+            type="file"
+            @change="e => inFile = e.target.files[0]"
+          />
+        </label>
+        <span class="text-5xl">👉</span>
+        <label class="flex-1">
+          <span class="block font-bold mb-3">🎨 Target Camera LUT</span>
+          <input
+            class="file-input file-input-bordered w-full"
+            type="file"
+            @change="e => outFile = e.target.files[0]"
+          />
+        </label>
+      </div>
+      <p class="mt-10"><button class="btn btn-primary" type="submit" :disabled="!submittable">generate!</button></p>
     </form>
-    <textarea readonly :value="resultLutStr"></textarea>
-    <p v-if="downloadHref">
-      <small>{{ filename }}</small><br />
-      <a :href="downloadHref" :download="filename">download</a>
-    </p>
+    <div class="rounded border border-4 bg-base-200 border-accent p-10 mt-20" v-if="downloadHref">
+      <p class="mb-5 center font-bold">🎉 LUT has been generated!</p>
+      <div class="flex items-center gap-3">
+        <a class="btn btn-accent" :href="downloadHref" :download="filename">🎨 download LUT file</a>
+        <p>{{ filename }}</p>
+      </div>
+      <textarea class="textarea textarea-bordered w-full h-36 mt-5 text-xs" readonly :value="resultLutStr"></textarea>
+    </div>
   </div>
 </template>
-
-<style module>
-textarea {
-  width: 100%;
-  height: 10rem;
-}
-</style>
